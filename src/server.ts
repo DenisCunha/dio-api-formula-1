@@ -14,17 +14,21 @@ const drivers = [
     {id: 3, name: "Lando Norris", team: "MacLaren"},
 ];
 
+const contenttype = "application/json";
+const statuscode_ok = 200;
+const statuscode_notfound = 404;
+
 interface DriverParams {
    id: string;
 }
 
 server.get("/teams", async (request, response) => {
-response.type("application/json").code(200);
+response.type(contenttype ).code(statuscode_ok);
 return {teams};
 });
 
 server.get("/drivers", async(request, response) =>  {
-response.type("application/json").code(200);
+response.type(contenttype).code(statuscode_ok);
 return {drivers};
 });
 
@@ -33,10 +37,10 @@ server.get<{Params : DriverParams}>("/drivers/:id", async(request, response) => 
     const driver = drivers.find(d => d.id === id);
 
     if(!driver) {
-        response.type("application/json").code(404);
+        response.type(contenttype).code(statuscode_notfound);
         return {message: "Driver Not Found"};
     } else {
-        response.type("application/json").code(200);
+        response.type(contenttype).code(statuscode_ok);
         return {driver};
     }
 });
